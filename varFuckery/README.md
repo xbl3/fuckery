@@ -31,7 +31,7 @@ returning to global *then* setting var is akin to setting your path to %path%;
 Well we have global set from local   
 
   
-**Were after the reverse, and instead want global ***inside of local***   
+**Were after the reverse, and instead want global**   ***inside of local***   
 ___Global is visiting local, so why not play tickle the var while spooning__
 
 ## Trick 2 

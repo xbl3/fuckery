@@ -19,11 +19,20 @@ If you check out ss64.com they have the following tidbit as well with regards to
 > endlocal&set var=%var%  
 
 This allows you to do X, like arrays, but when done set the expansion globally  
-this would go like so,  for blah blah set var=%%i!var! BUT at endlocal you would reset as  
-  
+
+Make your array:  
+>for blah blah set var=%%i !var! {inverse array [z->a]}  
+> Or not backwards= var=!var! %%i {proper array [a->z]} 
+
+make array var global:  
+> endlocal ***&*** set var=%var%  
+
+returning to global *then* setting var is akin to setting your path to %path%;  
+Well we have global set from local   
 
   
-so thats our global set from local, ***but were after global injecting local instead***    
+***Were want global inside of local instead***   
+___Global is visiting local, and wants some fun, so why not play tickle the var while spooning____
 
 ## Trick 2 
 ### RUN when set

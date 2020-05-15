@@ -65,16 +65,21 @@ Your var's var gets expanded at level 2 [%foo%=%%bar%%|-->|foo=%bar%]
     set two=six   
     
 now check    
+    
     echo %one%    
     echo %two%    
 
-one == %TWO%  
-two == six  
-> call echo %one%  
-one == six  
+> one == %TWO%  
+> two == six  
+     
+     call echo %one%  
+     
+> one == six  
 
-of course you can go even further by using earlier trick with nested vars 3+ calls away to expand, but....were injecting now  
+of course you can go even further, but....were injecting now    
 
+
+## Shit overview
 itll look like so basically  
 - global var is setup using aforementioned set var=&...  
 - well use another trick with the caret for a new line set var=&^..  

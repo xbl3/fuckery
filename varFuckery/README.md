@@ -80,44 +80,101 @@ of course you can go even further, but....were injecting now
 
 
 ## Shit overview
+### High Level View
 itll look like so basically  
-- global var is setup using aforementioned set var=&...  
-- well use another trick with the caret for a new line set var=&^..  
-- global will also be quoted so that it doesnt run when set "var=&^.."  
+- global var is setup using aforementioned $set var=&...  
+- well use another trick with the caret for a new line $set var=&^..  
+- global will also be quoted so that it doesnt run initially $set "var=&^.."  
 
-+ local will have delayed expansion ENABLED to use inline
-+ local loop is a standard for %%i [barely bitches]
-+ local could possibly work with steve jr but im sure would need useback
-+ local will call a sub var "%%I"
-+ local init var is standard %%i
-+ local will come after global var
+### General Process Flow 
++ local loop needs expand ENABLED
++ local loop is a standard $for %%i   
++ local loop $ /f might need useback
++ local loop skips outer var1 "%%i"
++ local loop uses inside var2 "%%I"
++ local loop phase starts do()  
++ local loop do(%VAR%) is global
++ local loop becomes global %%i
++ global had %%i preset inline
++ global uses %%i for responses
++ local runs the loop for %%i
++ local loop %%I now uses both
 
-> of course Im sure this shit could be setup a million different ways with adjustments
-> this is just how the hella messy file is setup
-> same goies for the sub var as i just wanted to see vs having it concatanate both using %%i
+### General spitballin
+This was just ran as a test. Theres potential though.   
+If doing %* I would probably run it from inner loop      
+1:1 parity rarely works as intended when nested    
+Since bang will work the skys the limit   
+You now have local, global, and time all for you   
+Nothing will proceed until your loop completes  
+Once inner loop is done it gets sent to outer  
+More outer inputs to %%i means return to %%I   
+Gain more control with for /L ran as %%I   
+Use new var ie %%a and can control iterations   
+Could see this setup being great in evaluations   
+Even for verification of key value pairs and more    
+Even maintain control by escaping to subRoutine  
+Once all loops complete control returns to top
 
-### quick flow
+> Use this a million different ways with adjustments  
+> The file is hella messy from console outputs etc  
+> Same for the sub var area as i just wanted to see  
+> Earlier runs I would concatanate both using %%i  
+
+### Simpler flow
 1. gVAR=newline trick
-2. local is called allowing expansion
-3. local runs for %%i {ping} and lets global use
-4. local runs for %%I {PONG} in nested loop
-5. local executes the global var
-6. global var has %%i as part of set/run
-7. global expands the localy set var from loop
+2. local is called allowing expansion  
+3. local runs for %%i {ping} and lets global use  
+4. local runs for %%I {PONG} in nested loop  
+5. local executes the global var  
+6. global var has %%i as part of set/run  
+7. global expands the localy set var from loop  
 
-final "do" flow is like this:  
->   %gVAR%%%i%%I&echo:
-gVAR=run Globally set VAR  
-%%i=ping in outer loop  
-%%I=PONG in inner loop  
-echo is used cause just like this whole setup its as backwards as winders  
+### Runtime breakdown
+***loop2/innerloop/%%I***   
+4%%i in()do(4%%Iin()do(***$***))  
 
-*without echo in loop it will not work properly*  
+__echo for outputs__  
+>   %gVAR%%%i%%I&echo:  
+### %%%% Breakdown %%%%  
+    gVAR=use in start this   
+    %%i=ping in outer loop    
+    %%I=PONG in inner loop    
+        
 
-_echo in global var is used to execute_  
+## SNIPPETS 
+> dont mind the names and shit was just fuckery   
+_echo in global var is used to execute_   
+   
+runMain:     
+     
+       set "newLine2=CALL ECHO:&^SET INNER=%%i"    
+       call:gapMe    
+     
+getLoop:  
 
+     for %%i in (ping) do (for %%I in (PONG) do (%newline2%%%I&ECHO:!INNER!) )
+  
+     echo:OUTSIDE
+  
+results:  
+%%i  %%I   
+pingPONG  
+::	OUTSIDE  
+::	Press any key to continue . . .    
+::  
+::  
+::  
+::	Thu 05/14/2020|20:19:20.39 $  
+
+
+
+
+
+
+## Closing thoughts unedited
 Why did I do all this? Well fucking winders and its whatever. Plus there could be great benefit from this.  
-youre not only injecting a "static" global var into a local nested loop, but youre doing it without bullshit
+youre not only injecting a "static" global var into a local nested loop, but youre doing it without bullshit    
 No if exist /if not == /call:bob sdfg /if defined/errormynuts/goto:brothel  
 NONE of that bullshit is getting used which could save on A LOT of shit  
 More than likely, being local and expandable, you could set both outer and inner to other vars  
@@ -126,27 +183,3 @@ ie... %i=!FOO!%I=!BAR! if %VAR% & if "!FOO!" cantMATH "!BAR!" (suck a dick)
 not sure if the expansion could happen above or would have to be done before hand, but im sure it would expand  
 only because again you have global literally all nested up in the ass crack of local  
 and when it gets ran hes smelling the hair of local so hes just a local before the paly with eachothers balls  
-
-
-## SNIPPETS 
-dont mind the names and shit was just fuckery  
-
-TopMost:  
-
-> set "newLine2=CALL ECHO:&^SET INNER=%%i"
-> call:gapMe  
-
-lowerLoop:  
-
-> for %%i in (ping) do (for %%I in (PONG) do (%newline2%%%I&ECHO:!INNER!) )
-  
-> echo:OUTSIDE
-  
-results:  
-pingPONG  
-::	OUTSIDE  
-::	Press any key to continue . . .    
-::  
-::  
-::  
-::	Thu 05/14/2020|20:19:20.39 $  

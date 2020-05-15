@@ -7,24 +7,21 @@ Sure most learned this crap in preSchool, or are smarter than that and don't fuc
 ## basic breakdown cause kinda cool
 
 if you're not familiar with the local to global techniques  
-
 basically this allows you to run local expansion without affecting everything  
 
 ie run the delay at the called label/child and not at the parent level  
 
 In the wild this can be seen even in the GCP python scripts on your system if installed  
-
 .. Its nothing fancy just warning about setting local blah blah at the global level  
 
 If you check out ss64.com they have the following tidbit as well with regards to expanding  
 
 This allows you to do X, like arrays, but when done set the expansion globally  
-
 this would go like so,  for blah blah set var=%%i!var! BUT at endlocal you would reset as  
-
+  
 > endlocal&set var=%var%  
-
-so thats our global set from local, but were after global injecting local instead  
+  
+so thats our global set from local, ***but were after global injecting local instead***    
 
 ## Trick 2 
 ### RUN when set

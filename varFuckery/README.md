@@ -32,44 +32,39 @@ Well we have global set from local
 
   
 **Were after the reverse, and instead want global**   ***inside of local***   
-___Global is visiting local, so why not play tickle the var while spooning__
+___Global is visiting local, so why not play tickle the var while spooning___
 
 ## Trick 2 
 ### RUN when set
 
 Theres nothing to this one really, and can do it straight from prompt without a batch file.  
+Bascially, when this gets set [set var=&$DO] then it gets ran.  
 
-bascially, when this gets set [set var=] then it gets ran.  
-
-Can be great for long commands so that its ran a la doskey kinda.  
-
-Pretty straight forward and simple to do with the use of the ampersand.  
-
->set var=&mycommand
-
-This WILL RUN as soon as set. NO CALLING NEEDED. BUT today my dumb ass found out that if quoted it wont
-
->set "var=&mycommand"
-
-That WILL NOT RUN unless called as a typical var  
-
-This got me thinking and dedcided to add a coupe more tricks like expansion without local
+Pretty straight forward, simple, and a true set it and forget it.   
+  
+>set var=&mycommand   
+Again, this **WILL RUN** ***as soon as set*** **WITHOUT ECHO**    
+   
+BUT today my dumb ass found out that if quoted it wont   
+>set "var=&mycommand"  
+That **WILL NOT RUN** unless requested [%var%]   
 
 ## Trick 3
-### DELAYEDEXPANSION WITHOUT !ANYWHERE!
+### DELAYEDEXPANSION WITHOUT USING BANG !!
 
-This one again is kinda simple and straight forward, and can actually be coupled with the earlier trick  
+This too is simple and straight forward, works without local/delayedExpansion, and can be coupled with the earlier trick  
+You esentially strip off the outer declaration(?) turning nested vars [%%var%%] into a single %var% [no !!]   
 
-Basically your chaining commands to strip off the outer layer in a sense so %%var%% is %var% [no !!]  
+This can be accomplished by using call as a proxy/relay.   
+instead of call $VAR$, or echo %VAR%, link them togher [call echo]     
+Your var's var gets expanded at level 2 [%foo%=%%bar%%|-->|foo=%bar%]
 
-This can be accomplished simply by using call and directing the call towards echo [call echo]  
 
-When this happends the wonders or math kick in for winders and if  your var was a var itself gets expanded  
 
     set one=%two%   
     set two=six   
     
-now check
+now check    
     echo %one%    
     echo %two%    
 

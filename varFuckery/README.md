@@ -16,10 +16,12 @@ In the wild this can be seen even in the GCP python scripts on your system if in
 
 If you check out ss64.com they have the following tidbit as well with regards to expanding  
 
+> endlocal&set var=%var%  
+
 This allows you to do X, like arrays, but when done set the expansion globally  
 this would go like so,  for blah blah set var=%%i!var! BUT at endlocal you would reset as  
   
-> endlocal&set var=%var%  
+
   
 so thats our global set from local, ***but were after global injecting local instead***    
 
